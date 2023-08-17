@@ -14,3 +14,8 @@ yarn start
 ```bash 
 yarn storybook
 ``` 
+
+### 배포 
+```bash
+yarn deploy
+``` 
