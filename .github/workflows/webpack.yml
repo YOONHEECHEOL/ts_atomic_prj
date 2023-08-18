@@ -22,7 +22,7 @@ jobs:
         node-version: 18
 
     - run: yarn install --immutable --immutable-cache --check-cache
-    - run: react-scripts build
+    - run: yarn build
 
     - uses: peaceiris/actions-gh-pages@v3
       with:
