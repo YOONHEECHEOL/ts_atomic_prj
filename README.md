@@ -1,4 +1,4 @@
-# gsp_react App
+# gsp-front App
 
 ### 설치
 ```bash 
