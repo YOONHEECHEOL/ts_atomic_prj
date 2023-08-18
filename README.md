@@ -11,11 +11,7 @@ yarn start
 ``` 
 
 ### storybook
-```bash 
-yarn storybook
-``` 
+- Auto deploy
 
 ### 배포 
-```bash
-yarn deploy
-``` 
+- Make pull request (dev > master)
