@@ -21,6 +21,9 @@ jobs:
       with:
         node-version: 18
 
+    - run: |
+        git config --global user.name "hcyoon0511@naver.com"
+        git config --global user.email "yoonheecheol"
     - run: yarn install --immutable --immutable-cache --check-cache
     - run: yarn deploy
 
