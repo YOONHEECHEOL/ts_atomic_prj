@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Global, css } from '@emotion/react';
+import { reset } from './style/reset';
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(
@@ -12,6 +14,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
+      <Global styles={reset} />
       <App />
     </QueryClientProvider>
   </React.StrictMode>
