@@ -1,5 +1,5 @@
-import { css } from '@emotion/react';
-import { FunctionComponent, RefObject, useEffect, useRef, useState, MutableRefObject } from 'react';
+import { css, keyframes } from '@emotion/react';
+import {  useRef, useState } from 'react';
 
 interface InputProps {
     value?: string;
@@ -23,16 +23,37 @@ export default function Input({
     //     return inputRef.current.focus();
     // }, [])
 
+    const blink = keyframes`
+        from,
+        to {
+            border-color: transparent;
+        }
+        50% {
+            border-color: #222
+        }
+    `
+
     return (
         <div
             css={css({
+                position: 'relative',
                 display: 'flex',
                 justifyContent: 'left',
                 fontSize: `${size === 's' ?
                     '1.6rem' : size === 'm' ?
                         '2rem' : size === 'l' ?
                             '2.4rem' : '2rem'}`,
-                overflow: 'hidden'
+                overflow: 'hidden',
+
+                width: '100%',
+                minWidth: '100%',
+                minHeight: `${size === 's' ?
+                    '2rem' : size === 'm' ?
+                        '2.4rem' : size === 'l' ?
+                            '2.8rem' : '2.4rem'}`,
+                padding: '0 0 .2rem 0',
+
+                borderBottom: '1px solid #222',
             })}
             onClick={() => {
                 console.log(refObj)
@@ -46,6 +67,10 @@ export default function Input({
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder={placeholder}
                 css={css({
+                    position: 'absolute',
+                    top: '-4px',
+                    left: '0',
+
                     display: 'block',
                     marginTop: '-1rem',
 
@@ -80,11 +105,11 @@ export default function Input({
                         css={css({
                             display: 'block',
 
-                            borderWidth: border ? '1px' : '0px',
-                            borderStyle: border ? 'solid' : '',
-                            borderColor: border ? '#ddd' : '#fff',
-                            borderRadius: border ? '0.4rem' : '0',
-                            borderBottom: '1px solid #222',
+                            // borderWidth: border ? '1px' : '0px',
+                            // borderStyle: border ? 'solid' : '',
+                            // borderColor: border ? '#ddd' : '#fff',
+                            // borderRadius: border ? '0.4rem' : '0',
+                            // borderBottom: '1px solid #222',
 
                             color: '#ddd'
                         })}
@@ -93,17 +118,21 @@ export default function Input({
                         css={css({
                             display: 'block',
 
-                            borderWidth: border ? '1px' : '0px',
-                            borderStyle: border ? 'solid' : '',
-                            borderColor: border ? '#222' : '#fff',
-                            borderRadius: border ? '0.4rem' : '0',
-                            borderBottom: '1px solid #222',
+                            // borderWidth: border ? '1px' : '0px',
+                            // borderStyle: border ? 'solid' : '',
+                            // borderColor: border ? '#222' : '#fff',
+                            // borderRadius: border ? '0.4rem' : '0',
+                            // borderBottom: '1px solid #222',
 
                             color: '#222'
                         })}
                     >{inputValue}</span>
             }        
-            <span>!!</span>
+            <span css={css({
+                display: 'block',
+                borderLeft: '.4rem solid #222',
+                animation: `${blink} 1s ease infinite`,
+            })}></span>
         </div>
     )
 }
