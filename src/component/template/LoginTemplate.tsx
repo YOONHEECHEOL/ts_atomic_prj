@@ -8,7 +8,7 @@ import Area from "../atom/Area/Area";
 import FixedArea from "../atom/Area/FixedArea";
 
 interface LoginTemplateProps {
-    children: HTMLElement[];
+    children?: HTMLElement | HTMLElement[] | JSX.Element | JSX.Element[];
 }
 
 export default function LoginTemplate({ children }: LoginTemplateProps) {
