@@ -12,6 +12,7 @@ import ErrorPage from './component/page/ErrorPage/ErrorPage';
 import { getCookie } from './utils/cookieUtils';
 import LoginTemplate from './component/template/LoginTemplate';
 import styled from '@emotion/styled';
+import Button from './component/atom/Button/Button';
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(
@@ -23,6 +24,8 @@ const ROOT_PATH = "gsp-front";
 const authCheck = (children: any) => {
 
     const Test = styled.div({ display: 'flex', justifyContent: 'right', flexDirection: 'column', alignItems: 'center' })
+
+    // 로그인 시 세션 체크 로직 생성
 
     const isLogin = getCookie('isLogin');
     if (isLogin !== 'Y')
@@ -48,7 +51,7 @@ const router = createBrowserRouter([
     },
     {
         path: ROOT_PATH + "/",
-        element: authCheck(<div>Hello! / <Link to="1234">Check</Link></div>),
+        element: authCheck(<div>Hello! / <Button label='123' /> <Link to="1234">Check</Link></div>),
     },
     {
         path: ROOT_PATH + "/App",

@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import * as React from 'react';
 
 interface ButtonProps {
@@ -7,7 +8,7 @@ interface ButtonProps {
     context?: 'disabled' | 'primary' | 'danger' | 'success' | 'warning';
     fill?: true | false;
     border?: true | false;
-    onClick?: (e:React.MouseEvent) => void;
+    onClick?: (e: React.MouseEvent) => void;
 }
 
 export default function Button({
@@ -57,44 +58,45 @@ export default function Button({
                 warning: fill ? '#d5a001' : '#fff'
             },
             border: {
-                disabled:  '#6d6d6d',
-                primary:  '#005bbc',
-                danger:  '#d92032',
-                success:  '#208d39',
+                disabled: '#6d6d6d',
+                primary: '#005bbc',
+                danger: '#d92032',
+                success: '#208d39',
                 warning: '#d5a001'
             },
         }
     }
 
-    return(
-            <button
-                type='button'
-                css={css({
-                    display: 'block',
-                    overflow: 'hidden',
-                    padding: '0.4rem',
-                    margin: '0.2rem',
-                    borderRadius: '.4rem',
-                    borderWidth: border || fill ? '1px' : '0px',
-                    borderColor: BTN_COLOR.border[context],
-                    borderStyle: 'solid',
-                    cursor: 'pointer',
-                    transition: '.4s background-color ease',                    
-                    fontSize: `${size === 's' ?
-                                    '1.6rem' : size === 'm' ? 
-                                        '2rem' : size === 'l' ? 
-                                            '2.4rem' : '2rem'}`,    
-                    backgroundColor: BTN_COLOR.backgroundColor[context],  
-                    color: BTN_COLOR.color[context],
-                    '&:hover': {
-                        borderColor: BTN_COLOR.hover.border[context],
-                        backgroundColor: BTN_COLOR.hover.backgroundColor[context],
-                        color: BTN_COLOR.hover.color[context],
-                    }
-                })}
-                onClick={onClick}
-            >
-                {label}
-            </button>
-        )
+    const Button = styled.button({
+        display: 'block',
+        overflow: 'hidden',
+        padding: '0.4rem',
+        margin: '0.2rem',
+        borderRadius: '.4rem',
+        borderWidth: border || fill ? '1px' : '0px',
+        borderColor: BTN_COLOR.border[context],
+        borderStyle: 'solid',
+        cursor: 'pointer',
+        transition: '.4s background-color ease',
+        fontSize: `${size === 's' ?
+            '1.6rem' : size === 'm' ?
+                '2rem' : size === 'l' ?
+                    '2.4rem' : '2rem'}`,
+        backgroundColor: BTN_COLOR.backgroundColor[context],
+        color: BTN_COLOR.color[context],
+        '&:hover': {
+            borderColor: BTN_COLOR.hover.border[context],
+            backgroundColor: BTN_COLOR.hover.backgroundColor[context],
+            color: BTN_COLOR.hover.color[context],
+        }
+    })
+
+    return (
+        <Button
+            type='button'
+            onClick={onClick}
+        >
+            {label}
+        </Button>
+    )
 }
