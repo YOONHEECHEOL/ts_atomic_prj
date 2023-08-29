@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 interface FixedAreaProps {
     align: "top" | "bottom";
-    children: string | JSX.Element | JSX.Element[] | null;
+    children?: string | JSX.Element | JSX.Element[] | null;
 }
 
 export default function FixedArea({ align, children = null }: FixedAreaProps) {

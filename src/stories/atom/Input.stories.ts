@@ -22,6 +22,8 @@ type Story = StoryObj<typeof meta>;
 export const Common: Story = {
     args: {
         // context: 'disabled',
-        // label: 'Button',
+        // label: 'Button',   
+        // value?: 
+        // onChange?: () => {},
     },
 };

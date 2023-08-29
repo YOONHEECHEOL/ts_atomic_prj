@@ -1,27 +1,33 @@
 import styled from "@emotion/styled";
+import { ComponentProps, forwardRef } from "react";
 
 interface AreaProps {
     children: string | JSX.Element | JSX.Element[] | null;
 }
 
-export default function Area({ children = null }: AreaProps) {
+const StyledAreaAtom = styled.div({
+    position: "relative",
 
-    const Area = styled.div({
-        position: "relative",
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    alignContent: "space-between",
+    alignItems: "center",
 
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        alignContent: "space-between",
-        alignItems: "center",
+    width: "100%",
+    padding: "2vh 0",
+})
 
-        width: "100%",
-        padding: "2rem 0",
-    })
-
+const RefAreaAtom = forwardRef((props: ComponentProps<any>, ref) => {
     return (
-        <Area>
-            {children}
-        </Area>
+        <StyledAreaAtom>
+            {props?.children}
+        </StyledAreaAtom>
+    )
+})
+
+export default function Area({ children = null }: AreaProps) {
+    return (
+        <RefAreaAtom>{children}</RefAreaAtom>
     );
 }
