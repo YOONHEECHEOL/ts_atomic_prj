@@ -3,9 +3,9 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 
 interface StyledTextAtomProps {
-    size: 's' | 'm' | 'l';
-    color: string;
-    align: 'left' | 'center' | 'right';
+    size?: 's' | 'm' | 'l' | string;
+    color?: string;
+    align?: 'left' | 'center' | 'right';
 }
 
 const StyledTextAtom = styled.div<StyledTextAtomProps>({
@@ -16,7 +16,7 @@ const StyledTextAtom = styled.div<StyledTextAtomProps>({
         fontSize: `${size === 's' ?
             '1.6rem' : size === 'm' ?
                 '2rem' : size === 'l' ?
-                    '2.4rem' : '2rem'}`,
+                    '2.4rem' : size}`,
         textAlign: `${align === 'left' ?
             'left' : align === 'center' ?
                 'center' : align === 'right' ?
@@ -26,7 +26,7 @@ const StyledTextAtom = styled.div<StyledTextAtomProps>({
 
 export interface TextProps {
     text?: string;
-    size?: 's' | 'm' | 'l';
+    size?: 's' | 'm' | 'l' | string;
     color?: string;
     align?: 'left' | 'center' | 'right';
     placeholder?: string | null;

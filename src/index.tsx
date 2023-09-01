@@ -18,12 +18,13 @@ import {
 } from "react-router-dom";
 import ErrorPage from "./component/page/Error/ErrorPage";
 import { getCookie } from "./utils/cookieUtils";
-import LoginTemplate from "./component/template/LoginTemplate";
+import LoginTemplate from "./component/template/Login/LoginTemplate";
 import styled from "@emotion/styled";
 import Button from "./component/atom/Button/Button";
 import InputTest, { TestInput } from "./component/atom/Input/InputTest";
 import LoginPage from "./component/page/Login/LoginPage";
 import { Provider } from "jotai";
+import TodoListPage from "./component/page/Todo/TodoListPage";
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(
@@ -33,8 +34,8 @@ const root = ReactDOM.createRoot(
 const ROOT_PATH = "gsp-front";
 
 const ContainerWrap = styled.div({
-    width: '100%',
-    height: '100vh',
+    width: 'calc(100% - 4vw)',
+    height: 'calc(100vh - 4vh)',
     overflow: 'hidden',
     margin: '0',
     padding: '0'
@@ -60,39 +61,38 @@ const authCheck = (children: any) => {
     // 로그인 시 세션 체크 로직 생성
 
     const isLogin = getCookie("isLogin");
-    return (
-        <ContainerWrap>
-            <Container>
-                {
-                    isLogin === 'Y' ?
-                        children
-                        : <Navigate to={"/login"} replace={false} />
-                }
-            </Container>
-        </ContainerWrap>
-    )
+    console.log(isLogin);
+    if (isLogin === 'Y')
+        return (
+            <ContainerWrap>
+                <Container>
+                    {children}
+                </Container>
+            </ContainerWrap>
+        );
+    else
+        return <Navigate to={`/login`} replace={true} />
 };
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Navigate to={ROOT_PATH + "/login"} replace={false} />,
         errorElement: <ErrorPage />,
     },
     {
-        path: ROOT_PATH + "/login",
+        path: "/login",
         element: (
-            authCheck(<LoginPage />)
+            <ContainerWrap>
+                <Container>
+                    <LoginPage />
+                </Container>
+            </ContainerWrap>
         ),
     },
     {
         // todo list
         path: ROOT_PATH + "/",
-        element: authCheck(
-            <div>
-                Hello! / <Button label="123" /> <Link to="1234">Check</Link>
-            </div>
-        ),
+        element: authCheck(<TodoListPage />),
     },
     {
         path: ROOT_PATH + "/App",
@@ -105,7 +105,8 @@ const router = createBrowserRouter([
 ]);
 
 root.render(
-    <React.StrictMode>
+    // <React.StrictMode>
+    <>
         {/* React-query provider */}
         <Provider>
             <QueryClientProvider client={queryClient}>
@@ -115,7 +116,8 @@ root.render(
                 <RouterProvider router={router} fallbackElement={null} />
             </QueryClientProvider>
         </Provider>
-    </React.StrictMode>
+    </>
+    // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
