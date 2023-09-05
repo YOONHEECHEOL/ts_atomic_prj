@@ -5,19 +5,39 @@ import { removeCookie, setCookie } from "../../../utils/cookieUtils";
 import Button from "../../atom/Button/Button";
 import Id from "../../organism/User/Id";
 
+const tempData = [
+    {
+        title: "알고리즘 공부하기",
+        desc: "기초부터 탄탄히, 퇴근 전 알고리즘 공부를 합시다.",
+        no: 1,
+        hashTag: "알고리즘|코테|자료구조",
+    },
+    {
+        title: "장보기",
+        desc: "다 먹고 살자고 하는 일, 영양분 구매합시다.",
+        no: 2,
+        hashTag: "식사|마트|식비",
+    },
+    {
+        title: "코테 문제 풀기",
+        desc: "이직 이직 절대 이직",
+        no: 3,
+        hashTag: "이직|알고리즘|자료구조",
+    },
+    {
+        title: "잠자기",
+        desc: "내일을 위한 휴식",
+        no: 4,
+        hashTag: "휴식|잠|종료",
+    },
+]
+
 export default function TodoListTemplate() {
     return (
         <>
             <TodoHeader id="홍길동" />
             <TodoList
-                data={[
-                    {
-                        title: "test",
-                        description: "test desc!",
-                        no: 0,
-                        hashTag: "kill",
-                    },
-                ]}
+                data={tempData}
             />
             <TodoFooter />
         </>
@@ -78,33 +98,51 @@ const TodoHeader = ({ id, height, children }: TodoHeaderProps) => {
 
 // body
 interface TodoListProps {
-    data?: object[] | null;
+    data?: TodoProps[];
 }
+const StyledTodoList = styled.div({
+    display: 'flex',
+    flexDirection: 'column',
+    width: 'calc(100% - 5rem)',
+    padding: '2rem',
+    gap: '.4rem'
+})
 const TodoList = ({ data }: TodoListProps) => {
     const listData = data && data?.length > 0 ? data : [];
     return (
-        <div>
-            {data?.map(() => {
-                return <Todo title={"test todo"} no={0} />;
+        <StyledTodoList>
+            {listData?.map((todo, idx) => {
+                return <Todo key={todo.title + idx} title={todo?.title} no={todo?.no} desc={todo?.desc} hashTag={todo?.hashTag} />;
             })}
-        </div>
+        </StyledTodoList>
     );
 };
 
 interface TodoProps {
     title: string;
-    description?: string;
+    desc?: string;
     no: number;
     hashTag?: string;
 }
-const Todo = ({ title, description, no, hashTag }: TodoProps) => {
+const StyledTodo = styled.div({
+    padding: '2rem',
+    border: '1px solid #bbb',
+    cursor: 'pointer',
+    fontSize: '1.4rem',
+    '&:hover': {
+        backgroundColor: '#f1f1f1',
+    }
+}, () => ({
+
+}))
+const Todo = ({ title, desc, no, hashTag }: TodoProps) => {
     return (
-        <div>
-            <span>{title}</span>
-            <span>{description}</span>
-            <span>{no}</span>
+        <StyledTodo>
+            <span>{title}</span><br />
+            <span>{desc}</span><br />
+            <span>{no}</span><br />
             <span>{hashTag}</span>
-        </div>
+        </StyledTodo>
     );
 };
 
