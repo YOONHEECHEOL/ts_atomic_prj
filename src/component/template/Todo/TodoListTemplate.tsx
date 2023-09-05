@@ -30,15 +30,13 @@ const tempData = [
         no: 4,
         hashTag: "휴식|잠|종료",
     },
-]
+];
 
 export default function TodoListTemplate() {
     return (
         <>
             <TodoHeader id="홍길동" />
-            <TodoList
-                data={tempData}
-            />
+            <TodoList data={tempData} />
             <TodoFooter />
         </>
     );
@@ -101,18 +99,26 @@ interface TodoListProps {
     data?: TodoProps[];
 }
 const StyledTodoList = styled.div({
-    display: 'flex',
-    flexDirection: 'column',
-    width: 'calc(100% - 5rem)',
-    padding: '2rem',
-    gap: '.4rem'
-})
+    display: "flex",
+    flexDirection: "column",
+    width: "calc(100% - 5rem)",
+    padding: "2rem",
+    gap: ".4rem",
+});
 const TodoList = ({ data }: TodoListProps) => {
     const listData = data && data?.length > 0 ? data : [];
     return (
         <StyledTodoList>
             {listData?.map((todo, idx) => {
-                return <Todo key={todo.title + idx} title={todo?.title} no={todo?.no} desc={todo?.desc} hashTag={todo?.hashTag} />;
+                return (
+                    <Todo
+                        key={todo.title + idx}
+                        title={todo?.title}
+                        no={todo?.no}
+                        desc={todo?.desc}
+                        hashTag={todo?.hashTag}
+                    />
+                );
             })}
         </StyledTodoList>
     );
@@ -124,24 +130,29 @@ interface TodoProps {
     no: number;
     hashTag?: string;
 }
-const StyledTodo = styled.div({
-    padding: '2rem',
-    border: '1px solid #bbb',
-    cursor: 'pointer',
-    fontSize: '1.4rem',
-    '&:hover': {
-        backgroundColor: '#f1f1f1',
-    }
-}, () => ({
-
-}))
+const StyledTodo = styled.div(
+    {
+        padding: "2rem",
+        border: "1px solid #bbb",
+        cursor: "pointer",
+        fontSize: "1.4rem",
+        "&:hover": {
+            backgroundColor: "#f1f1f1",
+        },
+    },
+    () => ({})
+);
 const Todo = ({ title, desc, no, hashTag }: TodoProps) => {
+    const hashTagList = hashTag?.split("|");
     return (
         <StyledTodo>
-            <span>{title}</span><br />
-            <span>{desc}</span><br />
-            <span>{no}</span><br />
-            <span>{hashTag}</span>
+            <span>{title}</span>
+            <br />
+            <span>{desc}</span>
+            <br />
+            <span>{no}</span>
+            <br />
+            {hashTagList?.length && <HahsTagList data={hashTagList} />}
         </StyledTodo>
     );
 };
@@ -153,4 +164,44 @@ interface TodoFooterProps {
 
 const TodoFooter = ({ text }: TodoFooterProps) => {
     return <div>{text}</div>;
+};
+
+// hashTag
+interface HashTagProps {
+    value: string;
+    color: string;
+}
+const StyledHashTag = styled.div(
+    {
+        padding: ".4rem",
+        border: "1px solid #222",
+    },
+    (props: any) => ({
+        backgroundColor: props.color,
+    })
+);
+const HashTag = ({ value, color }: HashTagProps) => {
+    return <StyledHashTag color={color}>{value}</StyledHashTag>;
+};
+
+interface HashTagListProps {
+    data: HashTagProps | HashTagProps[] | null;
+}
+const StyledHashTagList = styled.div({
+    display: "flex",
+    justifyContent: "left",
+    gap: ".2rem",
+});
+const HahsTagList = (props: HashTagListProps) => {
+    const dataList = [props.data];
+    return (
+        <StyledHashTagList>
+            {dataList &&
+                dataList?.map((el: any) => {
+                    return (
+                        <HashTag value={el.value} color={el.color}></HashTag>
+                    );
+                })}
+        </StyledHashTagList>
+    );
 };
