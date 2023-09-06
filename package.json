@@ -1,6 +1,6 @@
 {
   "homepage": "https://geshphan.github.io/gsp-front/",
-  "name": "gsp_react",
+  "name": "gsp-front",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
