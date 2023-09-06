@@ -3,7 +3,7 @@ import { atom, createStore, Provider, useAtom } from "jotai";
 import { useAtomCallback } from "jotai/utils";
 import { useCallback, useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { removeCookie, setCookie } from "../../../utils/cookieUtils";
+import { getCookie, removeCookie, setCookie } from "../../../utils/cookieUtils";
 import Area from "../../atom/Area/Area";
 import Button from "../../atom/Button/Button";
 import Input from "../../atom/Input/Input";
@@ -37,6 +37,20 @@ export default function LoginPage() {
     //     return () => clearInterval(timer);
     // }, [readLoginId])
 
+    useEffect(() => {
+        // id input init
+        setId('');
+    }, [])
+
+    useEffect(() => {
+        const loginId = getCookie("loginId");
+        const isLogin = getCookie("isLogin");
+
+        if (!loginId || !isLogin) return;
+        setCookie("loginId", '', "");
+        setCookie("isLogin", "N", "");
+    }, [])
+
     return (
         <Provider store={loginStore}>
             <LoginTemplate
@@ -60,7 +74,7 @@ export default function LoginPage() {
                                 }
                                 setCookie("loginId", id, "");
                                 setCookie("isLogin", "Y", "");
-                                nav("/gsp-front/");
+                                nav('/gsp-front/');
                             }}
                         />
                     </Area>

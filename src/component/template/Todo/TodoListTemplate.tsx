@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { MdOutlineSettings, MdTag } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { removeCookie, setCookie } from "../../../utils/cookieUtils";
 import Button from "../../atom/Button/Button";
 import Id from "../../organism/User/Id";
@@ -126,9 +126,10 @@ const TodoHeader = ({ id, height, children }: TodoHeaderProps) => {
                 onClick={(e) => {
                     removeCookie("loginId", "");
                     removeCookie("isLogin", "");
-                    nav("/login");
+                    nav("/gsp-front/login");
                 }}
             />
+            <Link to={"/gsp-front/login"}>logout</Link>
             {/* settings */}
             <MdOutlineSettings
                 size={30}
