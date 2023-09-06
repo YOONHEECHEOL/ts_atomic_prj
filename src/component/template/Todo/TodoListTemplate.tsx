@@ -9,26 +9,70 @@ const tempData = [
     {
         title: "알고리즘 공부하기",
         desc: "기초부터 탄탄히, 퇴근 전 알고리즘 공부를 합시다.",
-        no: 1,
-        hashTag: "알고리즘|코테|자료구조",
+        seq: 1,
+        hashTag: [
+            {
+                value: '이직',
+                color: '#222'
+            },
+            {
+                value: '알고리즘',
+                color: '#222'
+            },
+            {
+                value: '자료구조',
+                color: '#222'
+            },
+        ],
+        status: 'done',
     },
     {
         title: "장보기",
         desc: "다 먹고 살자고 하는 일, 영양분 구매합시다.",
-        no: 2,
-        hashTag: "식사|마트|식비",
+        seq: 2,
+        hashTag: [
+            {
+                value: '마트',
+                color: '#222'
+            },
+            {
+                value: '식비',
+                color: '#222'
+            },
+        ],
+        status: 'done',
     },
     {
         title: "코테 문제 풀기",
         desc: "이직 이직 절대 이직",
-        no: 3,
-        hashTag: "이직|알고리즘|자료구조",
+        seq: 3,
+        hashTag: [
+            {
+                value: '이직',
+                color: '#222'
+            },
+            {
+                value: '알고리즘',
+                color: '#222'
+            },
+            {
+                value: '자료구조',
+                color: '#222'
+            },
+        ],
+        status: 'done',
     },
     {
         title: "잠자기",
         desc: "내일을 위한 휴식",
-        no: 4,
-        hashTag: "휴식|잠|종료",
+        seq: 4,
+        hashTag: [
+            {
+                value: '휴식',
+                color: '#222'
+            },
+        ],
+        status: 'done',
     },
 ];
 
@@ -114,7 +158,7 @@ const TodoList = ({ data }: TodoListProps) => {
                     <Todo
                         key={todo.title + idx}
                         title={todo?.title}
-                        no={todo?.no}
+                        seq={todo?.seq}
                         desc={todo?.desc}
                         hashTag={todo?.hashTag}
                     />
@@ -127,8 +171,8 @@ const TodoList = ({ data }: TodoListProps) => {
 interface TodoProps {
     title: string;
     desc?: string;
-    no: number;
-    hashTag?: string;
+    seq: number;
+    hashTag?: HashTagProps[];
 }
 const StyledTodo = styled.div(
     {
@@ -142,17 +186,16 @@ const StyledTodo = styled.div(
     },
     () => ({})
 );
-const Todo = ({ title, desc, no, hashTag }: TodoProps) => {
-    const hashTagList = hashTag?.split("|");
+const Todo = ({ title, desc, seq, hashTag }: TodoProps) => {
     return (
         <StyledTodo>
             <span>{title}</span>
             <br />
             <span>{desc}</span>
             <br />
-            <span>{no}</span>
+            <span>{seq}</span>
             <br />
-            {hashTagList?.length && <HahsTagList data={hashTagList} />}
+            {hashTag && <HashTagList data={hashTag} />}
         </StyledTodo>
     );
 };
@@ -175,6 +218,7 @@ const StyledHashTag = styled.div(
     {
         padding: ".4rem",
         border: "1px solid #222",
+        color: "#fff"
     },
     (props: any) => ({
         backgroundColor: props.color,
@@ -185,23 +229,23 @@ const HashTag = ({ value, color }: HashTagProps) => {
 };
 
 interface HashTagListProps {
-    data: HashTagProps | HashTagProps[] | null;
+    data: HashTagProps[] | null;
 }
 const StyledHashTagList = styled.div({
     display: "flex",
     justifyContent: "left",
     gap: ".2rem",
 });
-const HahsTagList = (props: HashTagListProps) => {
-    const dataList = [props.data];
+const HashTagList = (props: HashTagListProps) => {
+
     return (
         <StyledHashTagList>
-            {dataList &&
-                dataList?.map((el: any) => {
-                    return (
-                        <HashTag value={el.value} color={el.color}></HashTag>
-                    );
-                })}
+            {props?.data && props?.data?.map((el: any, idx: number) => {
+                // console.log(el);
+                return (
+                    <HashTag key={idx + el?.value} value={el?.value} color={el?.color} />
+                );
+            })}
         </StyledHashTagList>
     );
 };
