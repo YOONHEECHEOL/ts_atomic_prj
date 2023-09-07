@@ -1,5 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import React, { createContext, FC, useCallback, useContext, useEffect, useState } from "react";
+import React, {
+    createContext,
+    FC,
+    useCallback,
+    useContext,
+    useEffect,
+    useState,
+} from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
@@ -27,6 +34,7 @@ import InputTest, { TestInput } from "./component/atom/Input/InputTest";
 import LoginPage from "./component/page/Login/LoginPage";
 import { Provider } from "jotai";
 import TodoListPage from "./component/page/Todo/TodoListPage";
+import { EmotionJSX } from "@emotion/react/types/jsx-namespace";
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(
@@ -36,33 +44,32 @@ const root = ReactDOM.createRoot(
 const ROOT_PATH = "gsp-front";
 
 const ContainerWrap = styled.div({
-    width: 'calc(100% - 4vw)',
-    height: 'calc(100vh - 4vh)',
-    overflow: 'hidden',
-    margin: '0',
-    padding: '0'
-})
+    width: "calc(100% - 4vw)",
+    height: "calc(100vh - 4vh)",
+    overflow: "hidden",
+    margin: "0",
+    padding: "0",
+});
 
 const Container = styled.div({
-    maxWidth: '1240px',
-    minWidth: '320px',
-    width: '100%',
-    height: '100%',
-    overflowX: 'hidden',
-    overflowY: 'scroll',
-    margin: '0 auto',
-    padding: '2vh 2vw',
-    display: 'flex',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    alignItems: 'center',
-})
+    maxWidth: "1240px",
+    minWidth: "320px",
+    width: "100%",
+    height: "100%",
+    overflowX: "hidden",
+    overflowY: "scroll",
+    margin: "0 auto",
+    padding: "2vh 2vw",
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
+});
 
 const authCheck = (children: any) => {
-
     // 로그인 시 세션 체크 로직 생성
 
-    const LOGIN_URL = ROOT_PATH + '/login';
+    const LOGIN_URL = ROOT_PATH + "/login";
 
     const isLogin = getCookie("isLogin");
     const loginId = getCookie("loginId");
@@ -70,10 +77,10 @@ const authCheck = (children: any) => {
     console.log(loginId);
 
     // 값이 없을 경우 추가
-    if (!isLogin) setCookie("isLogin", 'N', "");
+    if (!isLogin) setCookie("isLogin", "N", "");
     if (!loginId) setCookie("loginId", "", "");
 
-    if (isLogin === 'N' || loginId === '') redirect(LOGIN_URL);
+    if (isLogin === "N" || loginId === "") redirect(LOGIN_URL);
 
     return (
         <ContainerWrap>
@@ -105,7 +112,12 @@ const routerData = [
 
 // https://velog.io/@kmh060020/CreateBrowserRouter%EC%99%80-%ED%9A%A1%EB%8B%A8-%EA%B4%80%EC%8B%AC%EC%82%AC
 interface AuthGuardLayoutProps {
-    children: any;
+    children:
+        | EmotionJSX.Element
+        | EmotionJSX.Element[]
+        | JSX.Element
+        | JSX.Element[]
+        | null;
 }
 const AuthGuardLayout: FC<AuthGuardLayoutProps> = ({ children }) => {
     const [userProfile, setUserProfile] = useState<string | null>(null);
@@ -113,11 +125,13 @@ const AuthGuardLayout: FC<AuthGuardLayoutProps> = ({ children }) => {
 
     // https://hayeondev.gatsbyjs.io/230202-usememo-and-usecallback/
     const fetchUserProfile = useCallback(() => {
+        const isLogin = getCookie("isLogin");
+
         // auth validate logic
-        const userProfileResponse = 'user';
+        const userProfileResponse = isLogin;
 
         if (userProfileResponse === null) {
-            nav('/gsp-front/login');
+            nav("/gsp-front/login");
             return;
         }
         setUserProfile(userProfileResponse);
@@ -129,27 +143,28 @@ const AuthGuardLayout: FC<AuthGuardLayoutProps> = ({ children }) => {
 
     if (userProfile === null) return <></>;
 
-    return userProfile ? (
-        <>{children}</>
-    ) : (
-        <Navigate to={'gsp-front'} />
-    )
-}
+    return userProfile ? <>{children}</> : <Navigate to={"/gsp-front/login"} />;
+};
 
-const router = createBrowserRouter(routerData.map(route => {
-    if (route.withAuth) {
-        return {
-            path: route.path,
-            element: <AuthGuardLayout>{route.element}</AuthGuardLayout>,
+const router = createBrowserRouter(
+    routerData.map((route) => {
+        if (route.withAuth) {
+            return {
+                path: route.path,
+                element: (
+                    <AuthGuardLayout>
+                        {route.element ? route.element : <></>}
+                    </AuthGuardLayout>
+                ),
+            };
+        } else {
+            return {
+                path: route.path,
+                element: route.element,
+            };
         }
-    } else {
-        return {
-            path: route.path,
-            element: route.element,
-        }
-    }
-}));
-
+    })
+);
 
 root.render(
     <>
@@ -161,7 +176,10 @@ root.render(
                 {/* react-router-dom provider */}
                 <ContainerWrap>
                     <Container>
-                        <RouterProvider router={router} fallbackElement={null} />
+                        <RouterProvider
+                            router={router}
+                            fallbackElement={null}
+                        />
                     </Container>
                 </ContainerWrap>
             </QueryClientProvider>
@@ -173,4 +191,3 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-
