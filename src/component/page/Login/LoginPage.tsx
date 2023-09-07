@@ -1,9 +1,7 @@
-import styled from "@emotion/styled";
 import { atom, createStore, Provider, useAtom } from "jotai";
-import { useAtomCallback } from "jotai/utils";
-import { useCallback, useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { getCookie, removeCookie, setCookie } from "../../../utils/cookieUtils";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getCookie, setCookie } from "../../../utils/cookieUtils";
 import Area from "../../atom/Area/Area";
 import Button from "../../atom/Button/Button";
 import Input from "../../atom/Input/Input";
@@ -15,27 +13,9 @@ loginStore.set(loginId, "");
 
 export default function LoginPage() {
     const [id, setId] = useAtom(loginId);
-    const [loginIdValue, setLoginIdValue] = useState("");
+    const [isIdValidate, setIsIdValidated] = useState(false);
 
     const nav = useNavigate();
-
-    const readLoginId = useAtomCallback(
-        useCallback((get) => {
-            const currVal = get(loginId);
-            setLoginIdValue(currVal);
-            return currVal;
-        }, [])
-    );
-
-    // TODO 추가
-
-    // https://jotai.org/docs/utilities/callback
-    // useEffect(() => {
-    //     const timer = setInterval(async () => {
-    //         console.log(await readLoginId());
-    //     }, 1000)
-    //     return () => clearInterval(timer);
-    // }, [readLoginId])
 
     useEffect(() => {
         // id input init
@@ -51,6 +31,21 @@ export default function LoginPage() {
         setCookie("isLogin", "N", "");
     }, [])
 
+    const handleValidateEmailForm = (email: string) => {
+        // null 체크
+        if (email === "" || email === null) return false;
+
+        // email 형식 체크
+        const splitAlphaVal = email.split('@');
+        const splitDotVal = email.split('.');
+
+        if (splitAlphaVal.length !== 2 || splitAlphaVal[1] === '') return false;
+        if (splitDotVal.length !== 2 || splitDotVal[1] === '') return false;
+
+        const validateRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        return validateRegex.test(email);
+    }
+
     return (
         <Provider store={loginStore}>
             <LoginTemplate
@@ -58,23 +53,26 @@ export default function LoginPage() {
                     <Area>
                         <Input
                             value={id}
-                            onChange={setId}
+                            onChange={(val: string) => {
+                                setId(val);
+                                const isValidated = handleValidateEmailForm(val);
+                                if (isValidated) setIsIdValidated(true);
+                            }}
                             placeholder="testman@naver.com"
                             size="l"
                         />
                         <Button
                             label="로그인"
                             fill={true}
-                            context="primary"
+                            context={isIdValidate ? "primary" : 'disabled'}
                             onClick={(e) => {
-                                // validate fetch 필요
+                                if (isIdValidate) {
+                                    // validate fetch 필요
 
-                                if (id === "" || id === null) {
-                                    return console.log("id 입력필요");
+                                    setCookie("loginId", id, "");
+                                    setCookie("isLogin", "Y", "");
+                                    nav('/gsp-front/');
                                 }
-                                setCookie("loginId", id, "");
-                                setCookie("isLogin", "Y", "");
-                                nav('/gsp-front/');
                             }}
                         />
                     </Area>

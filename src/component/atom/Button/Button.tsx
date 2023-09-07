@@ -71,8 +71,15 @@ export default function Button({
     const Button = styled.button({
         display: 'block',
         overflow: 'hidden',
-        padding: '0.4rem',
-        margin: '0.2rem',
+        // width: '100%',
+        padding: `${size === 's' ?
+            '0.6rem 1.6rem' : size === 'm' ?
+                '1rem 2rem' : size === 'l' ?
+                    '1.4rem 2.4rem' : '1rem 2rem'}`,
+        margin: `${size === 's' ?
+            '0.4rem 0' : size === 'm' ?
+                '0.8rem 0' : size === 'l' ?
+                    '1.2rem 0' : '0.8rem 0'}`,
         borderRadius: '.4rem',
         borderWidth: border || fill ? '1px' : '0px',
         borderColor: BTN_COLOR.border[context],

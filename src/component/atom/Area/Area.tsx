@@ -15,7 +15,7 @@ const StyledAreaAtom = styled.div({
     alignItems: "center",
 
     width: "100%",
-    padding: "2vh 0",
+    padding: "1.2vh 0",
 })
 
 const RefAreaAtom = forwardRef((props: ComponentProps<any>, ref) => {
