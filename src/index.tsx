@@ -22,7 +22,7 @@ import LoginTemplate from "./component/template/Login/LoginTemplate";
 import styled from "@emotion/styled";
 import Button from "./component/atom/Button/Button";
 import InputTest, { TestInput } from "./component/atom/Input/InputTest";
-import LoginPage from "./component/page/Login/LoginPage";
+import LoginPage, { loginId } from "./component/page/Login/LoginPage";
 import { Provider } from "jotai";
 import TodoListPage from "./component/page/Todo/TodoListPage";
 
@@ -60,18 +60,24 @@ const authCheck = (children: any) => {
 
     // 로그인 시 세션 체크 로직 생성
 
+    const LOGIN_URL = ROOT_PATH + '/login';
+
     const isLogin = getCookie("isLogin");
+    const loginId = getCookie("loginId");
     console.log(isLogin);
-    if (isLogin === 'Y')
-        return (
-            <ContainerWrap>
-                <Container>
-                    {children}
-                </Container>
-            </ContainerWrap>
-        );
-    else
-        return <Navigate to={`/login`} replace={true} />
+    console.log(loginId);
+
+    return (
+        <ContainerWrap>
+            <Container>
+                {
+                    isLogin !== 'N' && loginId === '' ?
+                        <Navigate to={LOGIN_URL} replace={true} />
+                        : <>{children}</>
+                }
+            </Container>
+        </ContainerWrap>
+    );
 };
 
 const router = createBrowserRouter([
@@ -80,14 +86,8 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
     },
     {
-        path: "/login",
-        element: (
-            <ContainerWrap>
-                <Container>
-                    <LoginPage />
-                </Container>
-            </ContainerWrap>
-        ),
+        path: ROOT_PATH + "/login",
+        element: authCheck(<LoginPage />),
     },
     {
         // todo list
@@ -124,3 +124,7 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+function nav() {
+    throw new Error("Function not implemented.");
+}
+
