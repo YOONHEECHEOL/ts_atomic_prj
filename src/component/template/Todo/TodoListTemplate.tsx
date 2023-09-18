@@ -8,17 +8,21 @@ import HashTagList from "../../atom/HashTag/HashTagList";
 import Todo, { TodoProps } from "../../atom/Todo/Todo";
 import Id from "../../organism/User/Id";
 
-
-
 interface TodoListTemplateProps {
     header?: JSX.Element | JSX.Element[] | null;
+    addTodo?: JSX.Element | JSX.Element[] | null;
     body?: JSX.Element | JSX.Element[] | null;
 }
-export default function TodoListTemplate({ header, body }: TodoListTemplateProps) {
+export default function TodoListTemplate({
+    header,
+    addTodo,
+    body,
+}: TodoListTemplateProps) {
     return (
         <>
             {header}
             {/* <TodoHeader /> */}
+            {addTodo}
             {body}
             {/* <TodoList data={tempData} /> */}
             <TodoFooter />
