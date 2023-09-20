@@ -9,7 +9,7 @@ interface StyledTextAtomProps {
 }
 
 const StyledTextAtom = styled.div<StyledTextAtomProps>({
-    padding: '1vh 1vw'
+    padding: '0.5vh 0.5vw'
 },
     ({ size, color, align }) => ({
         color: color,

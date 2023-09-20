@@ -90,7 +90,7 @@ const InputWrap = styled.div<{ display?: 'inline' | 'block' | null, size?: 's' |
     overflow: 'hidden',
     position: 'relative',
     borderBottom: '1px solid #222',
-    padding: '2vh 0'
+    padding: '0.5vh 0'
 }, (props: any) => ({
     display: props?.display === 'inline' || !props?.display ? 'inline-flex' : 'flex',
     height: `${props?.size === "s"
@@ -116,7 +116,7 @@ to {
 const Cursor = styled.span({
     display: "block",
     height: '100%',
-    borderLeft: ".4rem solid #222",
+    borderLeft: ".6rem solid #222",
     animation: `${blink} 1s ease infinite`,
 });
 
