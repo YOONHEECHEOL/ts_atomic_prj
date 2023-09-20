@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useEffect } from "react";
 import Todo, { TodoProps } from "../../atom/Todo/Todo";
 
 interface TodoListProps {
@@ -7,12 +8,20 @@ interface TodoListProps {
 const StyledTodoList = styled.div({
     display: "flex",
     flexDirection: "column",
-    width: "calc(100% - 5rem)",
-    padding: "2rem",
+    width: "100%",
+    height: '100%',
+    padding: "0 2rem",
     gap: ".4rem",
+    overflowX: "hidden",
+    overflowY: "scroll",
 });
 export default function TodoList({ data }: TodoListProps) {
     const listData = data && data?.length > 0 ? data : [];
+
+    useEffect(() => {
+        console.log(data);
+    }, [data])
+
     return (
         <StyledTodoList>
             {listData?.map((todo, idx) => {

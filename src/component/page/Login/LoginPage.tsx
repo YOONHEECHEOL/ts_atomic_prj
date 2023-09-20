@@ -46,6 +46,15 @@ export default function LoginPage() {
         return validateRegex.test(email);
     }
 
+    const setCookieByPromise = (id: string) => {
+        return new Promise((res, rej) => {
+            setCookie("loginId", id, "");
+            setCookie("isLogin", "Y", "");
+
+            res('Y');
+        });
+    }
+
     return (
         <Provider store={loginStore}>
             <LoginTemplate
@@ -65,13 +74,14 @@ export default function LoginPage() {
                             label="로그인"
                             fill={true}
                             context={isIdValidate ? "primary" : 'disabled'}
-                            onClick={(e) => {
+                            onClick={async (e) => {
                                 if (isIdValidate) {
-                                    // validate fetch 필요
+                                    // validate fetch 필요                                   
 
-                                    setCookie("loginId", id, "");
-                                    setCookie("isLogin", "Y", "");
-                                    nav('/gsp-front/');
+                                    await setCookieByPromise(id).then(res => {
+                                        debugger;
+                                        if (res === 'Y') return nav('/gsp-front/');
+                                    });
                                 }
                             }}
                         />

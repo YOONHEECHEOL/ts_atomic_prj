@@ -9,6 +9,7 @@ import Input from "../../atom/Input/Input";
 import Button from "../../atom/Button/Button";
 import { atom, useAtom } from "jotai";
 import { TodoProps } from "../../atom/Todo/Todo";
+import { MdOutlineAddToPhotos } from "react-icons/md";
 const tempData = [
     {
         title: "알고리즘 공부하기",
@@ -81,20 +82,20 @@ const tempData = [
 ];
 
 export const originData = atom(tempData);
-export const currentData = atom([]);
+export const currentData = atom(tempData);
 
 export default function TodoListPage() {
     const [origin, setOrigin] = useAtom(originData);
-    const [curr, setCurr] = useAtom(originData);
+    const [curr, setCurr] = useAtom(currentData);
 
     useEffect(() => {
-        const loginId = getCookie("loginId");
-        const isLogin = getCookie("isLogin");
+        // const loginId = getCookie("loginId");
+        // const isLogin = getCookie("isLogin");
 
-        console.log(loginId);
-        console.log(isLogin);
+        // console.log(loginId);
+        // console.log(isLogin);
 
-        if (isLogin === "N") redirect("/gsp-front/login");
+        // if (isLogin === "N") redirect("/gsp-front/login");
     }, []);
 
     return (
@@ -116,48 +117,87 @@ interface AddTodoProps {
 }
 const StyledAddTodoButton = styled.div({
     width: "100%",
+    display: 'flex',
+    justifyContent: 'left',
+    margin: '7.5rem 0 0 0',
 });
 const AddTodoButton = () => {
-    const [curr, setCurr] = useAtom<TodoProps[]>(currentData);
+    const [curr, setCurr] = useAtom(currentData);
 
-    const [title, setTitle] = useState("");
-    const [desc, setDesc] = useState("");
-    const [hashTag, setHashTag] = useState("");
+    const [title, setTitle] = useState<string>("");
+    const [desc, setDesc] = useState<string>("");
+    const [hashTag, setHashTag] = useState<string>("");
+
+    // ui
+    const [mode, setMode] = useState<'R' | 'I'>('R');
 
     return (
         <StyledAddTodoButton>
-            <Input
-                placeholder={"title"}
-                value={title}
-                onChange={(e: any) => setTitle(e)}
-            />
-            <Input
-                placeholder={"desc"}
-                value={desc}
-                onChange={(e: any) => setDesc(e)}
-            />
-            <Input
-                placeholder={"HashTag"}
-                value={hashTag}
-                onChange={(e: any) => setHashTag(e)}
-            />
-            <Button
-                label="입력"
-                fill={true}
-                context="primary"
-                onClick={() => {
-                    const val: TodoProps = {
-                        title: title,
-                        desc: desc,
-                        hashTag: [hashTag],
-                    };
+            {
+                mode === 'R' ?
+                    // <MdOutlineAddToPhotos size={30} />
+                    <Button
+                        label="추가"
+                        fill={true}
+                        context={'primary'}
+                        onClick={() => setMode('I')}
+                    />
+                    : <></>
+            }
+            {
+                mode === 'I' ?
+                    <>
+                        <Input
+                            placeholder={"title"}
+                            value={title}
+                            onChange={(e: any) => setTitle(e)}
+                        />
+                        <Input
+                            placeholder={"desc"}
+                            value={desc}
+                            onChange={(e: any) => setDesc(e)}
+                        />
+                        <Input
+                            placeholder={"HashTag"}
+                            value={hashTag}
+                            onChange={(e: any) => setHashTag(e)}
+                        />
+                        <Button
+                            label="입력"
+                            fill={true}
+                            context="success"
+                            onClick={() => {
+                                let result = [...curr];
 
-                    const result = curr;
-                    result.push(val);
+                                const hashTagVal = [{
+                                    value: hashTag,
+                                    color: '#222'
+                                }];
 
-                    setCurr([...curr]);
-                }}
-            />
+                                const val: TodoProps = {
+                                    title: title,
+                                    desc: desc,
+                                    hashTag: hashTagVal,
+                                    seq: 0,
+                                    status: "done"
+                                };
+
+                                if (val) result.push(val);
+                                setCurr(result);
+                                setTitle('');
+                                setDesc('');
+                                setHashTag('');
+                            }}
+                        />
+                        <Button
+                            label="취소"
+                            fill={true}
+                            context="danger"
+                            onClick={() => setMode('R')}
+                        />
+                    </>
+                    : <></>
+            }
         </StyledAddTodoButton>
     );
 };

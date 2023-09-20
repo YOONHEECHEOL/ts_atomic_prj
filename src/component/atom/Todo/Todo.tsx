@@ -4,9 +4,9 @@ import HashTagList from "../HashTag/HashTagList";
 
 export interface TodoProps {
     title: string;
-    desc?: string;
+    desc: string;
     seq: number;
-    hashTag?: HashTagProps[];
+    hashTag: HashTagProps[] | [];
     status: string;
 }
 const StyledTodo = styled.div(

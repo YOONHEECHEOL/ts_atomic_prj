@@ -71,7 +71,8 @@ export default function Button({
     const Button = styled.button({
         display: 'block',
         overflow: 'hidden',
-        // width: '100%',
+        width: '100%',
+        maxWidth: label?.length ? label.length * 40 + 'px' : '100%',
         padding: `${size === 's' ?
             '0.6rem 1.6rem' : size === 'm' ?
                 '1rem 2rem' : size === 'l' ?

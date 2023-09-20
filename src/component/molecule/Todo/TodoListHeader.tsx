@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { MdOutlineSettings, MdTag } from "react-icons/md";
+import { MdLogout, MdOutlineSettings, MdTag } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { removeCookie } from "../../../utils/cookieUtils";
 import Button from "../../atom/Button/Button";
@@ -11,19 +11,26 @@ interface TodoListHeaderProps {
 }
 const StyledTodoHeaderListWrap = styled.div(
     {
-        minWidth: "320px",
-        maxWidth: "720px",
-        width: "100%",
-        height: "80px",
+        width: "calc(100% - 4vw)",
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        padding: "2vh 2vw",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        fontSize: "20px",
+        backgroundColor: '#fff',
+        borderBottom: '1px solid #ddd',
+        zIndex: '999',
     },
     (props: any) => ({
         height: props?.height,
     })
 );
+const StyledWrapSettingButtons = styled.div({
+    display: 'flex',
+    gap: '1rem',
+})
 export default function TodoListHeader({ height, children }: TodoListHeaderProps) {
     const nav = useNavigate();
 
@@ -31,20 +38,19 @@ export default function TodoListHeader({ height, children }: TodoListHeaderProps
         <StyledTodoHeaderListWrap height={height}>
             {/* hash tag button */}
             <MdTag size={30} onClick={() => console.log("hashtag!")} />
-
-            {/* title */}
-            <Id size={"30px"} backword="님" />
-            <Button
-                label="로그아웃"
-                fill={true}
-                context="danger"
-                size="s"
-                onClick={(e) => {
-                    removeCookie("loginId", "");
-                    removeCookie("isLogin", "");
-                    nav("/gsp-front/login");
-                }}
-            />
+            <StyledWrapSettingButtons>
+                {/* title */}
+                <Id size={"2.4rem"} backword="님" />
+                <MdLogout
+                    size={30}
+                    color={'#dc3545'}
+                    onClick={(e) => {
+                        removeCookie("loginId", "");
+                        removeCookie("isLogin", "");
+                        nav("/gsp-front/login");
+                    }}
+                />
+            </StyledWrapSettingButtons>
             {/* settings */}
             <MdOutlineSettings
                 size={30}

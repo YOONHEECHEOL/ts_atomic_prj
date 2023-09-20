@@ -18,13 +18,12 @@ export default function TodoListTemplate({
     addTodo,
     body,
 }: TodoListTemplateProps) {
+
     return (
         <>
             {header}
-            {/* <TodoHeader /> */}
             {addTodo}
             {body}
-            {/* <TodoList data={tempData} /> */}
             <TodoFooter />
         </>
     );
