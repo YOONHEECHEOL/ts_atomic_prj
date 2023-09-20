@@ -22,6 +22,6 @@ export default function Id({ size = 'l', backword }: IdProps) {
     }, [id])
 
     return (
-        <Text text={id} size={size} />
+        <Text text={id + backword} size={size} />
     )
 }
