@@ -8,9 +8,8 @@ interface TodoListProps {
 const StyledTodoList = styled.div({
     display: "flex",
     flexDirection: "column",
-    width: "100%",
+    width: '100%',
     height: '100%',
-    padding: "0 2rem",
     gap: ".4rem",
     overflowX: "hidden",
     overflowY: "scroll",

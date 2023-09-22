@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { MQ, ResponsiveBreakPoint } from "../../../style/responsiveWebCss";
 
 interface StyledTextAtomProps {
     size?: 's' | 'm' | 'l' | string;
@@ -9,14 +10,30 @@ interface StyledTextAtomProps {
 }
 
 const StyledTextAtom = styled.div<StyledTextAtomProps>({
-    padding: '0.5vh 0.5vw'
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
 },
     ({ size, color, align }) => ({
         color: color,
-        fontSize: `${size === 's' ?
-            '1.6rem' : size === 'm' ?
-                '2rem' : size === 'l' ?
-                    '2.4rem' : size}`,
+        [MQ[0]]: {
+            fontSize: `${size === 's' ?
+                '1.2rem' : size === 'm' ?
+                    '1.6rem' : size === 'l' ?
+                        '2rem' : size}`,
+        },
+        [MQ[1]]: {
+            fontSize: `${size === 's' ?
+                '1.4rem' : size === 'm' ?
+                    '1.8rem' : size === 'l' ?
+                        '2.2rem' : size}`,
+        },
+        [MQ[2]]: {
+            fontSize: `${size === 's' ?
+                '1.6rem' : size === 'm' ?
+                    '2rem' : size === 'l' ?
+                        '2.4rem' : size}`,
+        },
         textAlign: `${align === 'left' ?
             'left' : align === 'center' ?
                 'center' : align === 'right' ?
@@ -31,7 +48,6 @@ export interface TextProps {
     align?: 'left' | 'center' | 'right';
     placeholder?: string | null;
 }
-
 export default function Text({
     text = '',
     size = 's',

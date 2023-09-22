@@ -8,7 +8,7 @@ interface IdProps {
     backword?: null | string;
 }
 
-export default function Id({ size = 'l', backword }: IdProps) {
+export default function Id({ size = 'm', backword }: IdProps) {
 
     const [id, setId] = useState('-');
 

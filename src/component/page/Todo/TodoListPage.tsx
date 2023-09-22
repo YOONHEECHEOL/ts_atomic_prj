@@ -10,6 +10,8 @@ import Button from "../../atom/Button/Button";
 import { atom, useAtom } from "jotai";
 import { TodoProps } from "../../atom/Todo/Todo";
 import { MdOutlineAddToPhotos } from "react-icons/md";
+import { MQ, ResponsiveBreakPoint } from "../../../style/responsiveWebCss";
+
 const tempData = [
     {
         title: "알고리즘 공부하기",
@@ -84,6 +86,8 @@ const tempData = [
 export const originData = atom(tempData);
 export const currentData = atom(tempData);
 
+
+
 export default function TodoListPage() {
     const [origin, setOrigin] = useAtom(originData);
     const [curr, setCurr] = useAtom(currentData);
@@ -116,10 +120,12 @@ interface AddTodoProps {
     } | null;
 }
 const StyledAddTodoButton = styled.div({
-    width: "100%",
+    [MQ[0]]: { width: '100%', margin: '7vh 0 0 0', },
+    [MQ[1]]: { width: '100%' },
+    [MQ[2]]: { width: '100%' },
     display: 'flex',
     justifyContent: 'left',
-    margin: '7.5rem 0 0 0',
+    flexDirection: 'column',
 });
 const AddTodoButton = () => {
     const [curr, setCurr] = useAtom(currentData);
