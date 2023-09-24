@@ -15,19 +15,13 @@ const StyledAreaAtom = styled.div({
     alignItems: "center",
 
     width: "100%",
-    padding: "1.2vh 0",
-})
+    padding: "0.2rem 0",
+});
 
 const RefAreaAtom = forwardRef((props: ComponentProps<any>, ref) => {
-    return (
-        <StyledAreaAtom>
-            {props?.children}
-        </StyledAreaAtom>
-    )
-})
+    return <StyledAreaAtom>{props?.children}</StyledAreaAtom>;
+});
 
 export default function Area({ children = null }: AreaProps) {
-    return (
-        <RefAreaAtom>{children}</RefAreaAtom>
-    );
+    return <RefAreaAtom>{children}</RefAreaAtom>;
 }
