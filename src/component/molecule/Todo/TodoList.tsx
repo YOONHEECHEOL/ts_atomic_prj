@@ -8,8 +8,9 @@ interface TodoListProps {
 const StyledTodoList = styled.div({
     display: "flex",
     flexDirection: "column",
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
+    margin: ".2rem",
     gap: ".4rem",
     overflowX: "hidden",
     overflowY: "scroll",
@@ -19,7 +20,7 @@ export default function TodoList({ data }: TodoListProps) {
 
     useEffect(() => {
         console.log(data);
-    }, [data])
+    }, [data]);
 
     return (
         <StyledTodoList>
@@ -27,14 +28,16 @@ export default function TodoList({ data }: TodoListProps) {
                 return (
                     <Todo
                         key={todo.title + idx}
+                        todoId={todo?.todoId}
                         title={todo?.title}
-                        seq={todo?.seq}
-                        desc={todo?.desc}
+                        description={todo?.description}
                         hashTag={todo?.hashTag}
                         status={todo?.status}
+                        createdTime={""}
+                        isDeleted={false}
                     />
                 );
             })}
         </StyledTodoList>
     );
-};
+}

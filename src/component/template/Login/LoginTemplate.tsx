@@ -10,7 +10,7 @@ import { loginId } from "../../page/Login/LoginPage";
 import { setCookie } from "../../../utils/cookieUtils";
 
 const StyledLoginTemplate = styled.div({
-    width: '100%',
+    width: "100%",
 });
 
 interface LoginTemplateProps {
@@ -24,15 +24,24 @@ export default function LoginTemplate({ loginForm }: LoginTemplateProps) {
     return (
         <StyledLoginTemplate>
             {/* header */}
-            <Text text={"Who are you?"} size={"l"} color={""} align={"center"} />
-            <Text text={"로그인할 이메일을 입력해주세요."} size={"s"} color={"#999"} align={"center"} />
+            <Text
+                text={"로그인할 이메일을 입력해주세요."}
+                size={"m"}
+                color={"#222"}
+                align={"center"}
+            />
 
             {/* loginForm */}
             {loginForm}
 
             {/* footer */}
             <FixedArea align={"bottom"}>
-                <Text text={"Copyright Geshphan project all right reserved"} size={"s"} color={"#222"} align={"center"} />
+                <Text
+                    text={"Copyright Geshphan project all right reserved"}
+                    size={"s"}
+                    color={"#222"}
+                    align={"center"}
+                />
             </FixedArea>
         </StyledLoginTemplate>
     );
