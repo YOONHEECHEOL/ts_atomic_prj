@@ -24,10 +24,11 @@ export default function TodoList({ data }: TodoListProps) {
 
     return (
         <StyledTodoList>
-            {listData?.map((todo, idx) => {
+            {listData?.reverse()?.map((todo, idx) => {
                 return (
                     <Todo
                         key={todo.title + idx}
+                        idx={idx}
                         todoId={todo?.todoId}
                         title={todo?.title}
                         description={todo?.description}
@@ -35,6 +36,7 @@ export default function TodoList({ data }: TodoListProps) {
                         status={todo?.status}
                         createdTime={""}
                         isDeleted={false}
+                    // onClick={ }
                     />
                 );
             })}

@@ -8,7 +8,7 @@ import styled from "@emotion/styled";
 import Input from "../../atom/Input/Input";
 import Button from "../../atom/Button/Button";
 import { atom, useAtom } from "jotai";
-import { TodoProps } from "../../atom/Todo/Todo";
+import Todo, { TodoProps } from "../../atom/Todo/Todo";
 import { MdOutlineAddToPhotos } from "react-icons/md";
 import { MQ, ResponsiveBreakPoint } from "../../../style/responsiveWebCss";
 
@@ -16,6 +16,29 @@ const tempData: TodoProps[] = [
     {
         todoId: 1,
         title: "알고리즘 공부하기",
+        description: "기초부터 탄탄히, 퇴근 전 알고리즘 공부를 합시다.",
+        createdTime: "2023-09-15",
+        dueDate: "",
+        isDeleted: false,
+        hashTag: [
+            {
+                value: "이직",
+                color: "#222",
+            },
+            {
+                value: "알고리즘",
+                color: "#222",
+            },
+            {
+                value: "자료구조",
+                color: "#222",
+            },
+        ],
+        status: "done",
+    },
+    {
+        todoId: 2,
+        title: "알고리즘 공부하기2",
         description: "기초부터 탄탄히, 퇴근 전 알고리즘 공부를 합시다.",
         createdTime: "2023-09-15",
         dueDate: "",
@@ -57,23 +80,57 @@ export default function TodoListPage() {
         <TodoListTemplate
             header={<TodoListHeader />}
             addTodo={<AddTodoButton />}
-            body={<TodoList data={curr} />}
+            // body={<TodoList data={curr} />}
+            body={
+                <>
+                    <StyledTodoList>
+                        {
+                            curr && curr?.length > 0 && curr?.map((todo, idx) => {
+                                return (
+                                    <Todo
+                                        key={todo.title + idx}
+                                        idx={idx + 1}
+                                        todoId={todo?.todoId}
+                                        title={todo?.title}
+                                        description={todo?.description}
+                                        hashTag={todo?.hashTag}
+                                        status={todo?.status}
+                                        createdTime={""}
+                                        isDeleted={false}
+                                        isSelected={todo?.isSelected}
+                                        onClick={(e: any, data: any) => {
+                                            const sel = [...curr];
+                                            setCurr(sel?.map((el): any => {
+                                                if (el.todoId === data.todoId) el['isSelected'] = !el['isSelected'];
+                                                return el;
+                                            }))
+                                        }}
+                                    />
+                                )
+                            })
+                        }
+                    </StyledTodoList>
+                </>
+            }
         />
     );
 }
 
-interface AddTodoProps {
-    todoInfo?: {
-        title?: string;
-        desc?: string;
-        hashTag?: string;
-        status?: string;
-    } | null;
-}
+const StyledTodoList = styled.div({
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    height: "100%",
+    margin: ".2rem",
+    gap: ".4rem",
+    overflowX: "hidden",
+    overflowY: "scroll",
+});
+
 const StyledAddTodoButton = styled.div({
-    [MQ[0]]: { width: "100%", margin: "7vh 0 0 0" },
-    [MQ[1]]: { width: "100%" },
-    [MQ[2]]: { width: "100%" },
+    [MQ[0]]: { width: "100%", margin: "calc(7vh + .2rem) 0 0 0" },
+    [MQ[1]]: { width: "100%", margin: "calc(7vh + .3rem) 0 0 0" },
+    [MQ[2]]: { width: "100%", margin: "calc(7vh + .4rem) 0 0 0" },
     display: "flex",
     justifyContent: "left",
     flexDirection: "column",

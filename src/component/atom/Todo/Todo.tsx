@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import { HashTagProps } from "../HashTag/HashTag";
 import HashTagList from "../HashTag/HashTagList";
 import { MQ } from "../../../style/responsiveWebCss";
+import Icon from "../Icon/Icon";
+import { MdCheckCircle } from "react-icons/md";
 
 export interface TodoProps {
     todoId: number;
@@ -12,6 +14,10 @@ export interface TodoProps {
     hashTag: HashTagProps[] | [];
     status: "progress" | "done";
     isDeleted: boolean;
+
+    idx?: number;
+    isSelected?: boolean;
+    onClick?: any;
 }
 
 // wrap
@@ -41,7 +47,10 @@ const StyledTodoId = styled.div({
         borderRadius: "2rem 0 0 2rem",
         fontSize: "1.8rem",
     },
-});
+}, ({ isSelected }: any) => ({
+    backgroundColor: isSelected ? '#017bfe' : '#fff',
+    color: isSelected ? '#fff' : '#222',
+}));
 
 //
 const StyledTodo = styled.div(
@@ -63,9 +72,6 @@ const StyledTodo = styled.div(
             padding: "3.2rem 0 1.6rem",
             borderRadius: "0 2rem 2rem 0",
             fontSize: "1.8rem",
-        },
-        "&:hover": {
-            backgroundColor: "#f1f1f1",
         },
     },
     () => ({})
@@ -116,10 +122,29 @@ export default function Todo({
     title,
     description,
     hashTag,
+    idx,
+    onClick = () => { },
+    isSelected,
+    ...props
 }: TodoProps) {
+
+    const todoData = {
+        todoId,
+        title,
+        description,
+        hashTag,
+        idx,
+        onClick,
+        ...props
+    };
+
     return (
-        <StyledTodoWrap>
-            <StyledTodoId>{todoId}</StyledTodoId>
+        <StyledTodoWrap onClick={(e) => onClick(e, todoData)}>
+            <StyledTodoId isSelected={isSelected}>
+                {
+                    isSelected ? <Icon icon={<MdCheckCircle size={30} />} /> : idx
+                }
+            </StyledTodoId>
             <StyledTodo>
                 <StyledTodoTitle>{title}</StyledTodoTitle>
                 <StyledTodoDesc>{description}</StyledTodoDesc>
