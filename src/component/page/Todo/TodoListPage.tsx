@@ -85,29 +85,25 @@ export default function TodoListPage() {
                 <>
                     <StyledTodoList>
                         {
-                            curr && curr?.length > 0 && curr?.map((todo, idx) => {
-                                return (
-                                    <Todo
-                                        key={todo.title + idx}
-                                        idx={idx + 1}
-                                        todoId={todo?.todoId}
-                                        title={todo?.title}
-                                        description={todo?.description}
-                                        hashTag={todo?.hashTag}
-                                        status={todo?.status}
-                                        createdTime={""}
-                                        isDeleted={false}
-                                        isSelected={todo?.isSelected}
-                                        onClick={(e: any, data: any) => {
-                                            const sel = [...curr];
-                                            setCurr(sel?.map((el): any => {
-                                                if (el.todoId === data.todoId) el['isSelected'] = !el['isSelected'];
-                                                return el;
-                                            }))
-                                        }}
-                                    />
-                                )
-                            })
+                            curr && curr?.length > 0 && curr?.map((todo, idx) => <Todo
+                                key={todo.title + idx}
+                                idx={idx + 1}
+                                todoId={todo?.todoId}
+                                title={todo?.title}
+                                description={todo?.description}
+                                hashTag={todo?.hashTag}
+                                status={todo?.status}
+                                createdTime={""}
+                                isDeleted={false}
+                                isSelected={todo?.isSelected}
+                                onClick={(e: any, data: any) => {
+                                    const sel = [...curr];
+                                    setCurr(sel?.map((el): any => {
+                                        if (el.todoId === data.todoId) el['isSelected'] = !el['isSelected'];
+                                        return el;
+                                    }))
+                                }}
+                            />)
                         }
                     </StyledTodoList>
                 </>
@@ -128,9 +124,9 @@ const StyledTodoList = styled.div({
 });
 
 const StyledAddTodoButton = styled.div({
-    [MQ[0]]: { width: "100%", margin: "calc(7vh + .2rem) 0 0 0" },
-    [MQ[1]]: { width: "100%", margin: "calc(7vh + .3rem) 0 0 0" },
-    [MQ[2]]: { width: "100%", margin: "calc(7vh + .4rem) 0 0 0" },
+    [MQ[0]]: { width: "100%", margin: "calc(7vh + 4vh) 0 0 0" },
+    [MQ[1]]: { width: "100%", margin: "calc(7vh + 4vh) 0 0 0" },
+    [MQ[2]]: { width: "100%", margin: "calc(7vh + 4vh) 0 0 0" },
     display: "flex",
     justifyContent: "left",
     flexDirection: "column",
@@ -182,12 +178,12 @@ const AddTodoButton = () => {
                         onClick={() => {
                             let result = [...curr];
 
-                            const hashTagVal = [
-                                {
-                                    value: hashTag,
-                                    color: "#222",
-                                },
-                            ];
+                            const hashTagVal = hashTag.split(' ').map(tag => {
+                                return {
+                                    value: tag,
+                                    color: '#222'
+                                };
+                            });
 
                             const val: TodoProps = {
                                 todoId: 0,

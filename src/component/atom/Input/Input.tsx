@@ -50,24 +50,22 @@ const StyledInputAtom = styled.input<StyledInputAtomProps>(
     },
     // 가변적인 CSS
     ({ size, border, ...props }) => ({
-        fontSize: `${
-            size === "s"
-                ? "1.6rem"
-                : size === "m"
+        fontSize: `${size === "s"
+            ? "1.6rem"
+            : size === "m"
                 ? "2rem"
                 : size === "l"
-                ? "2.4rem"
-                : "2rem"
-        }`,
-        minHeight: `${
-            size === "s"
-                ? "2rem"
-                : size === "m"
+                    ? "2.4rem"
+                    : "2rem"
+            }`,
+        minHeight: `${size === "s"
+            ? "2rem"
+            : size === "m"
                 ? "2.4rem"
                 : size === "l"
-                ? "2.8rem"
-                : "2.4rem"
-        }`,
+                    ? "2.8rem"
+                    : "2.4rem"
+            }`,
         borderWidth: border ? "1px" : "0px",
         borderStyle: border ? "solid" : "",
         borderColor: border ? "#222" : "#fff",
@@ -110,15 +108,14 @@ const InputWrap = styled.div<{
             props?.display === "inline" || !props?.display
                 ? "inline-flex"
                 : "flex",
-        height: `${
-            props?.size === "s"
-                ? "2.4rem"
-                : props?.size === "m"
+        height: `${props?.size === "s"
+            ? "2.4rem"
+            : props?.size === "m"
                 ? "2.8rem"
                 : props?.size === "l"
-                ? "3.2rem"
-                : "2.4rem"
-        }`,
+                    ? "3.2rem"
+                    : "2.4rem"
+            }`,
     })
 );
 

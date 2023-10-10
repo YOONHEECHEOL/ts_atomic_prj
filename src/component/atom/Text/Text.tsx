@@ -18,47 +18,43 @@ const StyledTextAtom = styled.div<StyledTextAtomProps>(
     ({ size, color, align }) => ({
         color: color,
         [MQ[0]]: {
-            fontSize: `${
-                size === "s"
-                    ? "1.2rem"
-                    : size === "m"
+            fontSize: `${size === "s"
                     ? "1.6rem"
-                    : size === "l"
-                    ? "2rem"
-                    : size
-            }`,
+                    : size === "m"
+                        ? "1.8rem"
+                        : size === "l"
+                            ? "2rem"
+                            : size
+                }`,
         },
         [MQ[1]]: {
-            fontSize: `${
-                size === "s"
-                    ? "1.4rem"
-                    : size === "m"
-                    ? "1.8rem"
-                    : size === "l"
-                    ? "2.2rem"
-                    : size
-            }`,
-        },
-        [MQ[2]]: {
-            fontSize: `${
-                size === "s"
+            fontSize: `${size === "s"
                     ? "1.6rem"
                     : size === "m"
-                    ? "2rem"
-                    : size === "l"
-                    ? "2.4rem"
-                    : size
-            }`,
+                        ? "1.8rem"
+                        : size === "l"
+                            ? "2.0rem"
+                            : size
+                }`,
         },
-        textAlign: `${
-            align === "left"
+        [MQ[2]]: {
+            fontSize: `${size === "s"
+                    ? "1.6rem"
+                    : size === "m"
+                        ? "2rem"
+                        : size === "l"
+                            ? "2.4rem"
+                            : size
+                }`,
+        },
+        textAlign: `${align === "left"
                 ? "left"
                 : align === "center"
-                ? "center"
-                : align === "right"
-                ? "right"
-                : "left"
-        }`,
+                    ? "center"
+                    : align === "right"
+                        ? "right"
+                        : "left"
+            }`,
     })
 );
 

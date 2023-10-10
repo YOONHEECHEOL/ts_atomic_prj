@@ -13,7 +13,7 @@ interface TodoListHeaderProps {
 const StyledTodoHeaderListWrap = styled.div(
     {
         width: "calc(100% - 4vw)",
-        maxHeight: '7vh',
+        height: '7vh',
         position: 'fixed',
         top: '0',
         left: '0',
@@ -40,7 +40,7 @@ export default function TodoListHeader({ height, children }: TodoListHeaderProps
         <StyledTodoHeaderListWrap height={height}>
             {/* hash tag button */}
             <Icon icon={
-                <MdTag size={'100%'} onClick={() => console.log("hashtag!")} />}
+                <MdTag size={30} onClick={() => console.log("hashtag!")} />}
             />
 
             {/* title */}

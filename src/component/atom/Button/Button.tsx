@@ -88,9 +88,9 @@ export default function Button({
         [MQ[0]]: {
             // maxWidth: label?.length ? label.length * 4 + 'rem' : '100%',
             padding: `${size === 's' ?
-                '0.4rem 0.6rem' : size === 'm' ?
-                    '0.6rem 0.8rem' : size === 'l' ?
-                        '0.8rem 1rem' : '0.6rem 0.8rem'}`,
+                '0.8rem 0.6rem' : size === 'm' ?
+                    '1.2rem 0.8rem' : size === 'l' ?
+                        '1.6rem 1rem' : '0.6rem 0.8rem'}`,
             margin: `${size === 's' ?
                 '0.1rem 0' : size === 'm' ?
                     '0.2rem 0' : size === 'l' ?
@@ -103,9 +103,9 @@ export default function Button({
         },
         [MQ[1]]: {
             padding: `${size === 's' ?
-                '0.6rem 1.6rem' : size === 'm' ?
-                    '1rem 2rem' : size === 'l' ?
-                        '1.4rem 2.4rem' : '1rem 2rem'}`,
+                '0.8rem 0.6rem' : size === 'm' ?
+                    '1.2rem 0.8rem' : size === 'l' ?
+                        '1.6rem 1rem' : '0.6rem 0.8rem'}`,
             margin: `${size === 's' ?
                 '0.1rem 0' : size === 'm' ?
                     '0.2rem 0' : size === 'l' ?
@@ -118,9 +118,9 @@ export default function Button({
         },
         [MQ[2]]: {
             padding: `${size === 's' ?
-                '0.6rem 1.6rem' : size === 'm' ?
-                    '1rem 2rem' : size === 'l' ?
-                        '1.4rem 2.4rem' : '1rem 2rem'}`,
+                '0.8rem 0.6rem' : size === 'm' ?
+                    '1.2rem 0.8rem' : size === 'l' ?
+                        '1.6rem 1rem' : '0.6rem 0.8rem'}`,
             margin: `${size === 's' ?
                 '0.1rem 0' : size === 'm' ?
                     '0.2rem 0' : size === 'l' ?
