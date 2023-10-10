@@ -9,8 +9,8 @@ const StyledTodoList = styled.div({
     display: "flex",
     flexDirection: "column",
     width: "100%",
-    height: '100%',
-    padding: "0 2rem",
+    height: "100%",
+    margin: ".2rem",
     gap: ".4rem",
     overflowX: "hidden",
     overflowY: "scroll",
@@ -20,22 +20,26 @@ export default function TodoList({ data }: TodoListProps) {
 
     useEffect(() => {
         console.log(data);
-    }, [data])
+    }, [data]);
 
     return (
         <StyledTodoList>
-            {listData?.map((todo, idx) => {
+            {listData?.reverse()?.map((todo, idx) => {
                 return (
                     <Todo
                         key={todo.title + idx}
+                        idx={idx}
+                        todoId={todo?.todoId}
                         title={todo?.title}
-                        seq={todo?.seq}
-                        desc={todo?.desc}
+                        description={todo?.description}
                         hashTag={todo?.hashTag}
                         status={todo?.status}
+                        createdTime={""}
+                        isDeleted={false}
+                    // onClick={ }
                     />
                 );
             })}
         </StyledTodoList>
     );
-};
+}

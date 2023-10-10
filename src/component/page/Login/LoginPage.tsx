@@ -18,42 +18,38 @@ export default function LoginPage() {
     const nav = useNavigate();
 
     useEffect(() => {
-        // id input init
-        setId('');
-    }, [])
-
-    useEffect(() => {
         const loginId = getCookie("loginId");
         const isLogin = getCookie("isLogin");
 
         if (!loginId || !isLogin) return;
-        setCookie("loginId", '', "");
+        setCookie("loginId", "", "");
         setCookie("isLogin", "N", "");
-    }, [])
+    }, []);
 
     const handleValidateEmailForm = (email: string) => {
         // null 체크
         if (email === "" || email === null) return false;
 
         // email 형식 체크
-        const splitAlphaVal = email.split('@');
-        const splitDotVal = email.split('.');
+        const splitAlphaVal = email.split("@");
+        const splitDotVal = email.split(".");
 
-        if (splitAlphaVal.length !== 2 || splitAlphaVal[1] === '') return false;
-        if (splitDotVal.length !== 2 || splitDotVal[1] === '') return false;
+        if (splitAlphaVal.length !== 2 || splitAlphaVal[1] === "") return false;
+        if (splitDotVal.length !== 2 || splitDotVal[1] === "") return false;
 
-        const validateRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        const validateRegex =
+            /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         return validateRegex.test(email);
-    }
+    };
 
     const setCookieByPromise = (id: string) => {
         return new Promise((res, rej) => {
             setCookie("loginId", id, "");
             setCookie("isLogin", "Y", "");
 
-            res('Y');
+            res("Y");
         });
-    }
+    };
 
     return (
         <Provider store={loginStore}>
@@ -64,7 +60,8 @@ export default function LoginPage() {
                             value={id}
                             onChange={(val: string) => {
                                 setId(val);
-                                const isValidated = handleValidateEmailForm(val);
+                                const isValidated =
+                                    handleValidateEmailForm(val);
                                 if (isValidated) setIsIdValidated(true);
                             }}
                             placeholder="testman@naver.com"
@@ -73,14 +70,14 @@ export default function LoginPage() {
                         <Button
                             label="로그인"
                             fill={true}
-                            context={isIdValidate ? "primary" : 'disabled'}
+                            context={isIdValidate ? "primary" : "disabled"}
                             onClick={async (e) => {
                                 if (isIdValidate) {
-                                    // validate fetch 필요                                   
+                                    // validate fetch 필요
 
-                                    await setCookieByPromise(id).then(res => {
-                                        debugger;
-                                        if (res === 'Y') return nav('/gsp-front/');
+                                    await setCookieByPromise(id).then((res) => {
+                                        if (res === "Y")
+                                            return nav("/gsp-front/");
                                     });
                                 }
                             }}

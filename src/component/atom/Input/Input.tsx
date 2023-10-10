@@ -1,7 +1,14 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { atom, useAtom } from "jotai";
-import { ComponentProps, FC, forwardRef, useEffect, useRef, useState } from "react";
+import {
+    ComponentProps,
+    FC,
+    forwardRef,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import { loginId } from "../../page/Login/LoginPage";
 import Area from "../Area/Area";
 import Text, { TextProps } from "../Text/Text";
@@ -22,8 +29,6 @@ const StyledInputAtom = styled.input<StyledInputAtomProps>(
 
         display: "block",
         marginTop: "-1rem",
-
-        borderBottom: "1px solid #222",
 
         // cursor 스타일
         caretColor: "transparent",
@@ -65,7 +70,7 @@ const StyledInputAtom = styled.input<StyledInputAtomProps>(
         borderStyle: border ? "solid" : "",
         borderColor: border ? "#222" : "#fff",
         borderRadius: border ? "0.4rem" : "0",
-        ...props?.style
+        ...props?.style,
     })
 );
 
@@ -85,23 +90,34 @@ const RefInput = forwardRef((props: ComponentProps<any>, ref) => {
     );
 });
 
-const InputWrap = styled.div<{ display?: 'inline' | 'block' | null, size?: 's' | 'm' | 'l' }>({
-    justifyContent: 'center',
-    overflow: 'hidden',
-    position: 'relative',
-    borderBottom: '1px solid #222',
-    padding: '0.5vh 0'
-}, (props: any) => ({
-    display: props?.display === 'inline' || !props?.display ? 'inline-flex' : 'flex',
-    height: `${props?.size === "s"
-        ? "2.4rem"
-        : props?.size === "m"
-            ? "2.8rem"
-            : props?.size === "l"
-                ? "3.2rem"
-                : "2.4rem"
-        }`,
-}));
+const InputWrap = styled.div<{
+    display?: "inline" | "block" | null;
+    size?: "s" | "m" | "l";
+}>(
+    {
+        justifyContent: "flex-start",
+        overflow: "hidden",
+        position: "relative",
+        border: "1px solid #bbb",
+        borderRadius: "0.4rem",
+        padding: "0.4rem",
+        width: "calc(100% - 1rem)",
+    },
+    (props: any) => ({
+        display:
+            props?.display === "inline" || !props?.display
+                ? "inline-flex"
+                : "flex",
+        height: `${props?.size === "s"
+            ? "2.4rem"
+            : props?.size === "m"
+                ? "2.8rem"
+                : props?.size === "l"
+                    ? "3.2rem"
+                    : "2.4rem"
+            }`,
+    })
+);
 
 const blink = keyframes`
 from,
@@ -115,8 +131,9 @@ to {
 
 const Cursor = styled.span({
     display: "block",
-    height: '100%',
+    height: "100%",
     borderLeft: ".6rem solid #222",
+    marginLeft: ".4rem",
     animation: `${blink} 1s ease infinite`,
 });
 
@@ -127,23 +144,27 @@ interface InputProps extends TextProps {
 
 // state 를 가지고 있는 컴포넌트
 export default function Input({
-    value = '',
+    value = "",
     onChange = null,
     ...props
 }: InputProps) {
-
     let inputRef = useRef<any>(null);
 
     return (
         <Area>
             <InputWrap
                 onClick={() => {
-                    if (inputRef?.current)
-                        inputRef?.current?.focus();
+                    if (inputRef?.current) inputRef?.current?.focus();
                 }}
                 size={"l"}
             >
-                <Text text={value} size={props?.size} color={props?.color} align={props?.align} placeholder={props?.placeholder} />
+                <Text
+                    text={value}
+                    size={props?.size}
+                    color={props?.color}
+                    align={props?.align}
+                    placeholder={props?.placeholder}
+                />
                 <RefInput
                     ref={inputRef}
                     onChange={(e: any) => onChange(e.target.value)}
@@ -152,5 +173,4 @@ export default function Input({
             </InputWrap>
         </Area>
     );
-};
-
+}

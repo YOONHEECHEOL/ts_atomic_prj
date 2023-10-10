@@ -8,13 +8,18 @@ import styled from "@emotion/styled";
 import Input from "../../atom/Input/Input";
 import Button from "../../atom/Button/Button";
 import { atom, useAtom } from "jotai";
-import { TodoProps } from "../../atom/Todo/Todo";
+import Todo, { TodoProps } from "../../atom/Todo/Todo";
 import { MdOutlineAddToPhotos } from "react-icons/md";
-const tempData = [
+import { MQ, ResponsiveBreakPoint } from "../../../style/responsiveWebCss";
+
+const tempData: TodoProps[] = [
     {
+        todoId: 1,
         title: "알고리즘 공부하기",
-        desc: "기초부터 탄탄히, 퇴근 전 알고리즘 공부를 합시다.",
-        seq: 1,
+        description: "기초부터 탄탄히, 퇴근 전 알고리즘 공부를 합시다.",
+        createdTime: "2023-09-15",
+        dueDate: "",
+        isDeleted: false,
         hashTag: [
             {
                 value: "이직",
@@ -32,25 +37,12 @@ const tempData = [
         status: "done",
     },
     {
-        title: "장보기",
-        desc: "다 먹고 살자고 하는 일, 영양분 구매합시다.",
-        seq: 2,
-        hashTag: [
-            {
-                value: "마트",
-                color: "#222",
-            },
-            {
-                value: "식비",
-                color: "#222",
-            },
-        ],
-        status: "done",
-    },
-    {
-        title: "코테 문제 풀기",
-        desc: "이직 이직 절대 이직",
-        seq: 3,
+        todoId: 2,
+        title: "알고리즘 공부하기2",
+        description: "기초부터 탄탄히, 퇴근 전 알고리즘 공부를 합시다.",
+        createdTime: "2023-09-15",
+        dueDate: "",
+        isDeleted: false,
         hashTag: [
             {
                 value: "이직",
@@ -62,18 +54,6 @@ const tempData = [
             },
             {
                 value: "자료구조",
-                color: "#222",
-            },
-        ],
-        status: "done",
-    },
-    {
-        title: "잠자기",
-        desc: "내일을 위한 휴식",
-        seq: 4,
-        hashTag: [
-            {
-                value: "휴식",
                 color: "#222",
             },
         ],
@@ -82,7 +62,7 @@ const tempData = [
 ];
 
 export const originData = atom(tempData);
-export const currentData = atom(tempData);
+export const currentData = atom<TodoProps[]>(tempData);
 
 export default function TodoListPage() {
     const [origin, setOrigin] = useAtom(originData);
@@ -91,10 +71,8 @@ export default function TodoListPage() {
     useEffect(() => {
         // const loginId = getCookie("loginId");
         // const isLogin = getCookie("isLogin");
-
         // console.log(loginId);
         // console.log(isLogin);
-
         // if (isLogin === "N") redirect("/gsp-front/login");
     }, []);
 
@@ -102,24 +80,56 @@ export default function TodoListPage() {
         <TodoListTemplate
             header={<TodoListHeader />}
             addTodo={<AddTodoButton />}
-            body={<TodoList data={curr} />}
+            // body={<TodoList data={curr} />}
+            body={
+                <>
+                    <StyledTodoList>
+                        {
+                            curr && curr?.length > 0 && curr?.map((todo, idx) => <Todo
+                                key={todo.title + idx}
+                                idx={idx + 1}
+                                todoId={todo?.todoId}
+                                title={todo?.title}
+                                description={todo?.description}
+                                hashTag={todo?.hashTag}
+                                status={todo?.status}
+                                createdTime={""}
+                                isDeleted={false}
+                                isSelected={todo?.isSelected}
+                                onClick={(e: any, data: any) => {
+                                    const sel = [...curr];
+                                    setCurr(sel?.map((el): any => {
+                                        if (el.todoId === data.todoId) el['isSelected'] = !el['isSelected'];
+                                        return el;
+                                    }))
+                                }}
+                            />)
+                        }
+                    </StyledTodoList>
+                </>
+            }
         />
     );
 }
 
-interface AddTodoProps {
-    todoInfo?: {
-        title?: string;
-        desc?: string;
-        hashTag?: string;
-        status?: string;
-    } | null;
-}
-const StyledAddTodoButton = styled.div({
+const StyledTodoList = styled.div({
+    display: "flex",
+    flexDirection: "column",
     width: "100%",
-    display: 'flex',
-    justifyContent: 'left',
-    margin: '7.5rem 0 0 0',
+    height: "100%",
+    margin: ".2rem",
+    gap: ".4rem",
+    overflowX: "hidden",
+    overflowY: "scroll",
+});
+
+const StyledAddTodoButton = styled.div({
+    [MQ[0]]: { width: "100%", margin: "calc(7vh + 4vh) 0 0 0" },
+    [MQ[1]]: { width: "100%", margin: "calc(7vh + 4vh) 0 0 0" },
+    [MQ[2]]: { width: "100%", margin: "calc(7vh + 4vh) 0 0 0" },
+    display: "flex",
+    justifyContent: "left",
+    flexDirection: "column",
 });
 const AddTodoButton = () => {
     const [curr, setCurr] = useAtom(currentData);
@@ -129,75 +139,79 @@ const AddTodoButton = () => {
     const [hashTag, setHashTag] = useState<string>("");
 
     // ui
-    const [mode, setMode] = useState<'R' | 'I'>('R');
+    const [mode, setMode] = useState<"R" | "I">("R");
 
     return (
         <StyledAddTodoButton>
-            {
-                mode === 'R' ?
-                    // <MdOutlineAddToPhotos size={30} />
-                    <Button
-                        label="추가"
-                        fill={true}
-                        context={'primary'}
-                        onClick={() => setMode('I')}
+            {mode === "R" ? (
+                // <MdOutlineAddToPhotos size={30} />
+                <Button
+                    label="추가"
+                    fill={true}
+                    context={"primary"}
+                    onClick={() => setMode("I")}
+                />
+            ) : (
+                <></>
+            )}
+            {mode === "I" ? (
+                <>
+                    <Input
+                        placeholder={"title"}
+                        value={title}
+                        onChange={(e: any) => setTitle(e)}
                     />
-                    : <></>
-            }
-            {
-                mode === 'I' ?
-                    <>
-                        <Input
-                            placeholder={"title"}
-                            value={title}
-                            onChange={(e: any) => setTitle(e)}
-                        />
-                        <Input
-                            placeholder={"desc"}
-                            value={desc}
-                            onChange={(e: any) => setDesc(e)}
-                        />
-                        <Input
-                            placeholder={"HashTag"}
-                            value={hashTag}
-                            onChange={(e: any) => setHashTag(e)}
-                        />
-                        <Button
-                            label="입력"
-                            fill={true}
-                            context="success"
-                            onClick={() => {
-                                let result = [...curr];
+                    <Input
+                        placeholder={"desc"}
+                        value={desc}
+                        onChange={(e: any) => setDesc(e)}
+                    />
+                    <Input
+                        placeholder={"HashTag"}
+                        value={hashTag}
+                        onChange={(e: any) => setHashTag(e)}
+                    />
+                    <Button
+                        label="입력"
+                        fill={true}
+                        context="success"
+                        onClick={() => {
+                            let result = [...curr];
 
-                                const hashTagVal = [{
-                                    value: hashTag,
+                            const hashTagVal = hashTag.split(' ').map(tag => {
+                                return {
+                                    value: tag,
                                     color: '#222'
-                                }];
-
-                                const val: TodoProps = {
-                                    title: title,
-                                    desc: desc,
-                                    hashTag: hashTagVal,
-                                    seq: 0,
-                                    status: "done"
                                 };
+                            });
 
-                                if (val) result.push(val);
-                                setCurr(result);
-                                setTitle('');
-                                setDesc('');
-                                setHashTag('');
-                            }}
-                        />
-                        <Button
-                            label="취소"
-                            fill={true}
-                            context="danger"
-                            onClick={() => setMode('R')}
-                        />
-                    </>
-                    : <></>
-            }
+                            const val: TodoProps = {
+                                todoId: 0,
+                                title: title,
+                                description: desc,
+                                hashTag: hashTagVal,
+                                status: "done",
+                                createdTime: "",
+                                isDeleted: false,
+                            };
+
+                            if (val) result.push(val);
+                            setCurr(result);
+                            setTitle("");
+                            setDesc("");
+                            setHashTag("");
+                        }}
+                    />
+                    <Button
+                        label="취소"
+                        fill={true}
+                        context="danger"
+                        onClick={() => setMode("R")}
+                    />
+                </>
+            ) : (
+                <></>
+            )}
         </StyledAddTodoButton>
     );
 };

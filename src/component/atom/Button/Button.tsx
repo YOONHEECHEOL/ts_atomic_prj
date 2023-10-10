@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import * as React from 'react';
 import { Navigate } from 'react-router-dom';
+import { MQ } from '../../../style/responsiveWebCss';
 
 interface ButtonProps {
     size?: 's' | 'm' | 'l';
@@ -72,32 +73,64 @@ export default function Button({
         display: 'block',
         overflow: 'hidden',
         width: '100%',
-        maxWidth: label?.length ? label.length * 40 + 'px' : '100%',
-        padding: `${size === 's' ?
-            '0.6rem 1.6rem' : size === 'm' ?
-                '1rem 2rem' : size === 'l' ?
-                    '1.4rem 2.4rem' : '1rem 2rem'}`,
-        margin: `${size === 's' ?
-            '0.4rem 0' : size === 'm' ?
-                '0.8rem 0' : size === 'l' ?
-                    '1.2rem 0' : '0.8rem 0'}`,
-        borderRadius: '.4rem',
         borderWidth: border || fill ? '1px' : '0px',
         borderColor: BTN_COLOR.border[context],
         borderStyle: 'solid',
         cursor: 'pointer',
         transition: '.4s background-color ease',
-        fontSize: `${size === 's' ?
-            '1.6rem' : size === 'm' ?
-                '2rem' : size === 'l' ?
-                    '2.4rem' : '2rem'}`,
         backgroundColor: BTN_COLOR.backgroundColor[context],
         color: BTN_COLOR.color[context],
         '&:hover': {
             borderColor: BTN_COLOR.hover.border[context],
             backgroundColor: BTN_COLOR.hover.backgroundColor[context],
             color: BTN_COLOR.hover.color[context],
-        }
+        },
+        [MQ[0]]: {
+            // maxWidth: label?.length ? label.length * 4 + 'rem' : '100%',
+            padding: `${size === 's' ?
+                '0.8rem 0.6rem' : size === 'm' ?
+                    '1.2rem 0.8rem' : size === 'l' ?
+                        '1.6rem 1rem' : '0.6rem 0.8rem'}`,
+            margin: `${size === 's' ?
+                '0.1rem 0' : size === 'm' ?
+                    '0.2rem 0' : size === 'l' ?
+                        '0.3rem 0' : '0.2rem 0'}`,
+            borderRadius: '.4rem',
+            fontSize: `${size === 's' ?
+                '1.2rem' : size === 'm' ?
+                    '1.6rem' : size === 'l' ?
+                        '2rem' : '1.6rem'}`,
+        },
+        [MQ[1]]: {
+            padding: `${size === 's' ?
+                '0.8rem 0.6rem' : size === 'm' ?
+                    '1.2rem 0.8rem' : size === 'l' ?
+                        '1.6rem 1rem' : '0.6rem 0.8rem'}`,
+            margin: `${size === 's' ?
+                '0.1rem 0' : size === 'm' ?
+                    '0.2rem 0' : size === 'l' ?
+                        '0.3rem 0' : '0.2rem 0'}`,
+            borderRadius: '.4rem',
+            fontSize: `${size === 's' ?
+                '1.2rem' : size === 'm' ?
+                    '1.6rem' : size === 'l' ?
+                        '2rem' : '1.6rem'}`,
+        },
+        [MQ[2]]: {
+            padding: `${size === 's' ?
+                '0.8rem 0.6rem' : size === 'm' ?
+                    '1.2rem 0.8rem' : size === 'l' ?
+                        '1.6rem 1rem' : '0.6rem 0.8rem'}`,
+            margin: `${size === 's' ?
+                '0.1rem 0' : size === 'm' ?
+                    '0.2rem 0' : size === 'l' ?
+                        '0.3rem 0' : '0.2rem 0'}`,
+            borderRadius: '.4rem',
+            fontSize: `${size === 's' ?
+                '1.6rem' : size === 'm' ?
+                    '2rem' : size === 'l' ?
+                        '2.4rem' : '2rem'}`,
+        },
     })
 
     return (
