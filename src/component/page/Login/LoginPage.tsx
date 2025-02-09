@@ -77,7 +77,7 @@ export default function LoginPage() {
 
                                     await setCookieByPromise(id).then((res) => {
                                         if (res === "Y")
-                                            return nav("/gsp-front/");
+                                            return nav("/ts_atomic_prj/");
                                     });
                                 }
                             }}

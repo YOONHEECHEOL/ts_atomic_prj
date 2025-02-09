@@ -41,7 +41,7 @@ const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
 );
 
-const ROOT_PATH = "gsp-front";
+const ROOT_PATH = "ts_atomic_prj";
 
 const ContainerWrap = styled.div({
     width: "100%",
@@ -51,7 +51,7 @@ const ContainerWrap = styled.div({
 });
 
 const Container = styled.div({
-    position: 'relative',
+    position: "relative",
     maxWidth: "1240px",
     minWidth: "320px",
     width: "calc(100% - 4vw)",
@@ -110,11 +110,11 @@ const routerData = [
 // https://velog.io/@kmh060020/CreateBrowserRouter%EC%99%80-%ED%9A%A1%EB%8B%A8-%EA%B4%80%EC%8B%AC%EC%82%AC
 interface AuthGuardLayoutProps {
     children:
-    | EmotionJSX.Element
-    | EmotionJSX.Element[]
-    | JSX.Element
-    | JSX.Element[]
-    | null;
+        | EmotionJSX.Element
+        | EmotionJSX.Element[]
+        | JSX.Element
+        | JSX.Element[]
+        | null;
 }
 const AuthGuardLayout: FC<AuthGuardLayoutProps> = ({ children }) => {
     const [userProfile, setUserProfile] = useState<string | null>(null);
@@ -127,8 +127,8 @@ const AuthGuardLayout: FC<AuthGuardLayoutProps> = ({ children }) => {
         // auth validate logic
         const userProfileResponse = isLogin;
 
-        if (userProfileResponse !== 'Y') {
-            nav("/gsp-front/login");
+        if (userProfileResponse !== "Y") {
+            nav("/ts_atomic_prj/login");
             return;
         }
         setUserProfile(userProfileResponse);
@@ -140,7 +140,11 @@ const AuthGuardLayout: FC<AuthGuardLayoutProps> = ({ children }) => {
 
     if (userProfile === null) return <></>;
 
-    return userProfile ? <>{children}</> : <Navigate to={"/gsp-front/login"} />;
+    return userProfile ? (
+        <>{children}</>
+    ) : (
+        <Navigate to={"/ts_atomic_prj/login"} />
+    );
 };
 
 const router = createBrowserRouter(

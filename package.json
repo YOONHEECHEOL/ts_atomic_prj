@@ -1,6 +1,6 @@
 {
   "homepage": "https://yoonheecheol.github.io/ts_atomic_prj/",
-  "name": "gsp-front",
+  "name": "ts_atomic_prj",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
